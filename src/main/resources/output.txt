@@ -1,0 +1,4 @@
+Results:
+The word 'medicine' appears 19 times in the file.
+The word 'cancer' appears 63 times in the file.
+The word 'antibody' appears 4 times in the file.
