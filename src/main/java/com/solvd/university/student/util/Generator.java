@@ -1,6 +1,5 @@
 package com.solvd.university.student.util;
 
-import com.solvd.university.*;
 import com.solvd.university.student.*;
 import com.solvd.university.student.humans.*;
 import org.apache.logging.log4j.LogManager;
@@ -10,24 +9,23 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Generator {
-    private static final Logger logger = (Logger) LogManager.getLogger(Generator.class);
+    private static final Logger logger = LogManager.getLogger(Generator.class);
 
     public static Student generateStudent(String firstName, String lastName, int studentID, int examScore) {
         return new Student(firstName, lastName, studentID, examScore);
+
     }
 
     public static SecurityOfficer generateSecurityOfficer(String firstName, String lastName, int securityID) {
         return new SecurityOfficer(firstName, lastName, securityID);
     }
 
-    public static Professor generateProfessor(String firstName, String lastName,Department department, int professorID) {
-        return new Professor(firstName,lastName,department,professorID);
+    public static Professor generateProfessor(String firstName, String lastName, int professorID) {
+        return new Professor(firstName,lastName, Professor.TeachingStatus.NOT_TEACHING);
     }
 
-    // Add methods to generate other instances (gyms, courses, universities, departments, TAs, enrollments, professors, scholarships)
 
     public static void main(String[] args) {
-        System.setProperty("log4j.configurationFile", "log4j2.xml");
 
         // Generate students
         Student john = generateStudent("John", "Smith", 1, 70);
@@ -47,9 +45,7 @@ public class Generator {
         SecurityOfficer nathanial = generateSecurityOfficer("Nathanial", "Turner", 3);
         SecurityOfficer kyle = generateSecurityOfficer("Kyle", "Chapman", 4);
 
-        // ... (generate other instances)
 
-        // Continue with the rest of your main logic
         //      Instance of Gym
         Gym sacramentoGym = new Gym("Sacramento State university Gym");
         Gym sanFranciscoGym = new Gym("San Francisco state university Gym");
@@ -131,10 +127,10 @@ public class Generator {
         Department<String> computerScienceDepartment = new Department<>("Computer Science Department");
         Department<String> historyDepartment = new Department<>("History Department");
 
-        TA arnold = new TA("Arnold", "Allen",mathDepartment);
-        TA jenny = new TA("Jenny","Tran", englishDepartment);
-        TA lewis = new TA("Lewis", "Smith", computerScienceDepartment);
-        TA jessica = new TA("Jessica", "Barrios", historyDepartment);
+        TA arnold = new TA("Arnold", "Allen",mathDepartment, TA.TutoringStatus.CURRENTLY_TUTORING);
+        TA jenny = new TA("Jenny","Tran", englishDepartment, TA.TutoringStatus.NOT_TUTORING);
+        TA lewis = new TA("Lewis", "Smith", computerScienceDepartment, TA.TutoringStatus.CURRENTLY_TUTORING);
+        TA jessica = new TA("Jessica", "Barrios", historyDepartment, TA.TutoringStatus.NOT_TUTORING);
 
 //        TA's in Sacramento state university
         sacramentoState.addTA(arnold);
@@ -165,17 +161,17 @@ public class Generator {
         Enrollment enrollJaymee = new Enrollment("Acting club", jaymee, history);
 
 //        Professor instances
-        Professor Matt = new Professor("Matt", "Hughes", mathDepartment,1);
-        Professor paige = new Professor("Paige","Garner",englishDepartment,2);
-        Professor jose = new Professor("Jose", "Marcos", computerScienceDepartment,3);
-        Professor eliza = new Professor("Eliza","Lane", historyDepartment,4);
+        Professor Matt = new Professor("Matt", "Hughes", Professor.TeachingStatus.TEACHING);
+        Professor paige = new Professor("Paige","Garner", Professor.TeachingStatus.TEACHING);
+        Professor jose = new Professor("Jose", "Marcos", Professor.TeachingStatus.NOT_TEACHING);
+        Professor eliza = new Professor("Eliza","Lane", Professor.TeachingStatus.NOT_TEACHING);
 
 //        List of all professors in Sacramento state university
         sacramentoState.addProfessor(Matt);
         sacramentoState.addProfessor(paige);
 
         for (Professor professor : sacramentoState.getProfessorList()) {
-            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sacramentoState.getUniversityName() + " and is in : " + professor.getDepartment().getDepartmentName());
+            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sacramentoState.getUniversityName());
         }
 
 //        List of all professors in San Francisco state university
@@ -183,7 +179,7 @@ public class Generator {
         sanFranciscoState.addProfessor(eliza);
 
         for (Professor professor : sanFranciscoState.getProfessorList()) {
-            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sanFranciscoState.getUniversityName() + " and is in : " + professor.getDepartment().getDepartmentName());
+            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sanFranciscoState.getUniversityName());
         }
 
 
@@ -233,10 +229,6 @@ public class Generator {
     public static void studentOptions(Student student, Scanner scanner) {
         // Implement the studentOptions method
 
-        System.setProperty("log4j.configurationFile","log4j2.xml");
-
-        Logger logger = (Logger) LogManager.getLogger(Generator.class);
-
         logger.info("Choose either if the student is studying, reading, or doing homework. ");
 
         // Read the user's input
@@ -260,10 +252,6 @@ public class Generator {
 
     public static void studentOptionsTwo(Student student, Scanner scanner) {
         // Implement the studentOptions method
-
-        System.setProperty("log4j.configurationFile","log4j2.xml");
-
-        Logger logger = (Logger) LogManager.getLogger(Generator.class);
 
         logger.info("You must prepare for an upcoming Exam. Choose between review,'cards' to make flash cards or 'notes' to make notes of your past lectures and homework. ");
 
@@ -289,10 +277,6 @@ public class Generator {
     public static void studentOptionsThree(Student student, Scanner scanner) {
         // Implement the studentOptions method
 
-        System.setProperty("log4j.configurationFile","log4j2.xml");
-
-        Logger logger = (Logger) LogManager.getLogger(Generator.class);
-
         logger.info("You are preparing well for the exam. Decide if you want to go to 'office' to meet your professor for more help or 'tutor' to meet the teacher assistant for more help. ");
 
         // Read the user's input
@@ -314,10 +298,6 @@ public class Generator {
 
     public static void studentOptionsFour(Student student, Scanner scanner) {
         // Implement the studentOptions method
-
-        System.setProperty("log4j.configurationFile","log4j2.xml");
-
-        Logger logger = (Logger) LogManager.getLogger(Main.class);
 
         logger.info("Choose on their free time what the student will do. nap, eat or socialize. ");
 

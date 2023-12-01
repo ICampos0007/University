@@ -1,10 +1,8 @@
 package com.solvd.university.student.humans;
 
-
 public abstract class Person {
     private String firstName;
     private String lastName;
-
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -15,14 +13,13 @@ public abstract class Person {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName == null ) {
+        if (firstName == null) {
             throw new FirstNameInvalidException();
         }
         this.firstName = firstName;
     }
 
     public String getLastName() {
-
         return lastName;
     }
 

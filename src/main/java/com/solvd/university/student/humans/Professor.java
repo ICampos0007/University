@@ -1,28 +1,29 @@
 package com.solvd.university.student.humans;
-import com.solvd.university.student.Department;
 
 public class Professor extends Person {
-    private final Department department;
 
-    private final int professorID;
+    public enum TeachingStatus {
+        TEACHING,
+        NOT_TEACHING
+    }
 
-    public Professor(String firstName, String lastName, Department department, int professorID) {
+    private TeachingStatus teachingStatus;
+
+    public Professor(String firstName, String lastName, TeachingStatus teachingStatus) {
         super(firstName, lastName);
-        this.department = department;
-        this.professorID = professorID;
+        this.teachingStatus = teachingStatus;
     }
 
-    public Department getDepartment() {
-        return department;
+    public TeachingStatus getTeachingStatus() {
+        return teachingStatus;
     }
 
-    public int getProfessorID() {
-        return professorID;
+    public void setTeachingStatus(TeachingStatus teachingStatus) {
+        this.teachingStatus = teachingStatus;
     }
 
     @Override
     public String toString() {
         return "Professor: " + getFirstName() + " " + getLastName();
     }
-
 }

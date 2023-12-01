@@ -12,13 +12,12 @@ import java.util.logging.Logger;
 public class Article {
     private static final Logger logger = Logger.getLogger(Article.class.getName());
 
-    public static void main(String[] args) {
+    public static void analyzeArticle() {
         // Specify the path to your text file
         String filePath = "src/main/resources/article.txt";
 
-        String targetWord = "medicine";
-        String targetWordTwo = "cancer";
-        String targetWordThree = "antibody";
+        // Specify the target words in an array
+        String[] targetWords = {"medicine", "cancer", "antibody"};
 
         // Specify the path to your output text file
         String outputFilePath = "src/main/resources/output.txt";
@@ -27,33 +26,28 @@ public class Article {
             // Read the content of the file into a String
             String fileContent = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
 
-            // Use StringUtils to count occurrences of each target word
-            int wordCount = StringUtils.countMatches(fileContent, targetWord);
-            int wordCountTwo = StringUtils.countMatches(fileContent, targetWordTwo);
-            int wordCountThree = StringUtils.countMatches(fileContent, targetWordThree);
+            // Iterate over the array of target words and count occurrences
+            for (String targetWord : targetWords) {
+                int wordCount = StringUtils.countMatches(fileContent, targetWord);
+                // Output the result
+                logger.info("The word '" + targetWord + "' appears " + wordCount + " times in the file.");
 
-            // Output the result
-            logger.info("The word '" + targetWord + "' appears " + wordCount + " times in the file.");
-            logger.info("The word '" + targetWordTwo + "' appears " + wordCountTwo + " times in the file.");
-            logger.info("The word '" + targetWordThree + "' appears " + wordCountThree + " times in the file.");
-
-            // Write the results to the output file
-            writeResultsToFile(outputFilePath, targetWord, wordCount, targetWordTwo, wordCountTwo, targetWordThree, wordCountThree);
+                // Write the result to the output file
+                writeResultToFile(outputFilePath, targetWord, wordCount);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void writeResultsToFile(String outputFilePath, String targetWord, int wordCount,
-                                           String targetWordTwo, int wordCountTwo,
-                                           String targetWordThree, int wordCountThree) {
-        try (FileWriter writer = new FileWriter(outputFilePath)) {
-            writer.write("Results:\n");
+    private static void writeResultToFile(String outputFilePath, String targetWord, int wordCount) {
+        try (FileWriter writer = new FileWriter(outputFilePath, true)) {
             writer.write("The word '" + targetWord + "' appears " + wordCount + " times in the file.\n");
-            writer.write("The word '" + targetWordTwo + "' appears " + wordCountTwo + " times in the file.\n");
-            writer.write("The word '" + targetWordThree + "' appears " + wordCountThree + " times in the file.\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+//    public static void main(String[] args) {
+//        analyzeArticle();
+//    }
 }

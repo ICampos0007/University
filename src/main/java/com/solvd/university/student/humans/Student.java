@@ -2,18 +2,14 @@ package com.solvd.university.student.humans;
 
 import com.solvd.university.student.Clubs;
 import com.solvd.university.student.ScholarShip;
-import com.solvd.university.student.interfaces.IPrepare;
-import com.solvd.university.student.interfaces.IRelax;
-import com.solvd.university.student.interfaces.IStudent;
-import com.solvd.university.student.interfaces.ITutor;
-import com.solvd.university.student.util.Generator;
+import com.solvd.university.student.interfaces.*;
+import com.solvd.university.student.interfaces.IPrint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.Scanner;
 
-public class Student extends Person implements IStudent, IRelax, IPrepare, ITutor {
-    private static final Logger logger = (Logger) LogManager.getLogger(Student.class);
+public class Student extends Person implements IStudent, IRelax, IPrepare, ITutor, IPrint {
+    private static final Logger logger = LogManager.getLogger(Student.class);
     private final int studentID;
     private final double examScore;
     private ScholarShip scholarship;
@@ -103,5 +99,10 @@ public class Student extends Person implements IStudent, IRelax, IPrepare, ITuto
     @Override
     public void teacherAssistant(Scanner scanner) {
         logger.info(getFirstName() + " After class has decided to go to the Teacher Assistant to help you with the upcoming exam.");
+    }
+    @Override
+    public void print() {
+        logger.info("Student Name: " + getFirstName() + " " + getLastName());
+        logger.info("Exam Score: " + getExamScore());
     }
 }

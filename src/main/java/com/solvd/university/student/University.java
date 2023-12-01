@@ -23,7 +23,8 @@ public class University extends Library {
 
     static final int MAX_GYM_CAPACITY = 500;
 
-    static final String ACADEMIC_YEAR = "2023-2024";
+    private static final Calendar calendar = Calendar.getInstance();
+    static final String ACADEMIC_YEAR = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.YEAR) + 1);
 
     static final int MAX_LIBRARY_CAPACITY = 1000;
 
@@ -32,6 +33,13 @@ public class University extends Library {
 
     private static final Set<String> universityNamesSet = new HashSet<>();
 
+    // New enum for school week days
+    public enum SchoolWeekDay {
+        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
+    }
+
+    private SchoolWeekDay currentSchoolWeekDay;  // Current day of the school week
+
 
 
 
@@ -39,12 +47,12 @@ public class University extends Library {
         super(libraryName);
         this.universityName = universityName;
         this.tuition = tuition;
-
         this.studentList = new ArrayList<>();
         this.securityOfficerList = new ArrayList<>();
         this.professorList = new ArrayList<>();
         this.gym = gym;
         this.taList = new ArrayList<>();
+        this.currentSchoolWeekDay = SchoolWeekDay.MONDAY;
     }
 
     public void addStudent(Student student) {
@@ -137,6 +145,14 @@ public class University extends Library {
 
     public static Set<String> getUniversityNamesSet() {
         return universityNamesSet;
+    }
+
+    public SchoolWeekDay getCurrentSchoolWeekDay() {
+        return currentSchoolWeekDay;
+    }
+
+    public void setCurrentSchoolWeekDay(SchoolWeekDay day) {
+        this.currentSchoolWeekDay = day;
     }
 
 
