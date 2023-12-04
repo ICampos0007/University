@@ -4,9 +4,9 @@ import com.solvd.university.student.*;
 import com.solvd.university.student.humans.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Generator {
     private static final Logger logger = LogManager.getLogger(Generator.class);
@@ -75,14 +75,18 @@ public class Generator {
         logger.info("all university max gym capacity : " + University.getMaxCapacity());
         logger.info("All university max student capacity : " + University.getMaxStudents());
 
-//        List of all security officers in Sacramento state university
-        for (SecurityOfficer securityOfficer : sacramentoState.getSecurityOfficerList()) {
-            logger.info(securityOfficer.getFirstName() + " " + securityOfficer.getLastName() + " is a security in : " + sacramentoState.getUniversityName());
-        }
+        sacramentoState.getSecurityOfficerList().stream()
+                .filter(securityOfficer -> securityOfficer.getFirstName() != null && securityOfficer.getLastName() != null)
+                .forEach(securityOfficer ->
+                        logger.info(securityOfficer.getFirstName() + " " + securityOfficer.getLastName() + " is a security in : " +
+                                sacramentoState.getUniversityName()));
+
 //        List of all students attending Sacramento state university
-        for (Student student : sacramentoState.getStudentList()) {
-            logger.info(student.getFirstName() + " " + student.getLastName() + " is attending : " + sacramentoState.getUniversityName());
-        }
+        List<String> sacramentoStudentList = sacramentoState.getStudentList().stream()
+                .map(student -> student.getFirstName() + " " + student.getLastName() +
+                        "is attending: " + sacramentoState.getUniversityName())
+                .collect(Collectors.toList());
+        sacramentoStudentList.forEach(logger::info);
 
         University sanFranciscoState = new University("Library of San Francisco State University","San Francisco State University", 30000, sanFranciscoGym);
         University.addUniversityNameToSet(sanFranciscoState.getUniversityName());
@@ -99,27 +103,33 @@ public class Generator {
         University.addUniversityToMap(chicoState);
 
 //        For loop for all the key values for universities and their tuition
-        for (Map.Entry<String, Double> entry : University.getUniversityMap().entrySet()) {
-            String universityName = entry.getKey();
-            double tuition = entry.getValue();
-            logger.info("University Name: " + universityName + ", Tuition: " + tuition);
-        }
+        logger.info("University Names and Tuition's:");
+        University.getUniversityMap().entrySet().stream()
+                .map(entry -> "University Name: " + entry.getKey() + ", Tuition: " + entry.getValue())
+                .forEach(logger::info);
 //        For loop for all University in set collection
         logger.info("All universities in the set:");
-        for (String universityName : University.getUniversityNamesSet()) {
-            logger.info(universityName);
-        }
+        University.getUniversityNamesSet().stream()
+                .forEach(logger::info);
+
 
 
 
 //        List of all security officers in San Francisco state University
-        for (SecurityOfficer securityOfficer : sanFranciscoState.getSecurityOfficerList()) {
-            logger.info(securityOfficer.getFirstName() + " " + securityOfficer.getLastName() +  " is a security in :" + sanFranciscoState.getUniversityName());
-        }
+        List<String> sanFranSecurityList = sanFranciscoState.getSecurityOfficerList().stream()
+                .map(student -> student.getFirstName() + " " + student.getLastName() +
+                        "is a security officer: " + sanFranciscoState.getUniversityName())
+                .collect(Collectors.toList());
+        sanFranSecurityList.forEach(logger::info);
+
 //        List of all students attending San Francisco state university
-        for (Student student : sanFranciscoState.getStudentList()) {
-            logger.info(student.getFirstName() + " " + student.getLastName() + " is attending : " + sanFranciscoState.getUniversityName());
-        }
+        List<String> sanFranStudentList = sanFranciscoState.getStudentList().stream()
+                .map(student -> student.getFirstName() + " " + student.getLastName() +
+                        "is attending: " + sanFranciscoState.getUniversityName())
+                .collect(Collectors.toList());
+        sanFranStudentList.forEach(logger::info);
+
+
 
 //        Department instances
         Department<String> mathDepartment = new Department<>("Math Department");
@@ -136,18 +146,16 @@ public class Generator {
         sacramentoState.addTA(arnold);
         sacramentoState.addTA(jenny);
 
-        for (TA ta : sacramentoState.getTaList()) {
-            logger.info(ta.getFirstName()+ " " + ta.getLastName() + " is a TA in " + sacramentoState.getUniversityName()+ " in the : "+ ta.getDepartment().getDepartmentName());
-        }
+        List<String> sacramentoTAList = sacramentoState.getTaList().stream()
+                .filter(ta -> ta.getFirstName() != null && ta.getLastName() != null)
+                .map(ta -> ta.getFirstName() + " " + ta.getLastName() +
+                        " is a TA in " + sacramentoState.getUniversityName())
+                .collect(Collectors.toList());
+        sacramentoTAList.forEach(logger::info);
 
 //        TA's in San Francisco state university
         sanFranciscoState.addTA(lewis);
         sanFranciscoState.addTA(jessica);
-
-        for (TA ta : sanFranciscoState.getTaList()) {
-            logger.info(ta.getFirstName()+ " " + ta.getLastName() + " is a TA in " + sanFranciscoState.getUniversityName()+ " in the : "+ ta.getDepartment().getDepartmentName());
-        }
-
 
 
 //        Enrollment instances
@@ -170,17 +178,26 @@ public class Generator {
         sacramentoState.addProfessor(Matt);
         sacramentoState.addProfessor(paige);
 
-        for (Professor professor : sacramentoState.getProfessorList()) {
-            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sacramentoState.getUniversityName());
-        }
+        sacramentoState.getProfessorList().stream()
+                .filter(professor -> professor.getFirstName() != null && professor.getLastName() != null)
+                        .forEach(professor ->
+                                logger.info(professor.getFirstName()+ " " + professor.getLastName() +
+                                        "Is a professor in " + sacramentoState.getUniversityName()));
 
 //        List of all professors in San Francisco state university
         sanFranciscoState.addProfessor(jose);
         sanFranciscoState.addProfessor(eliza);
 
-        for (Professor professor : sanFranciscoState.getProfessorList()) {
-            logger.info(professor.getFirstName() + " " + professor.getLastName() + " is the professor in " + sanFranciscoState.getUniversityName());
-        }
+
+        // Log information for TAs
+        List<String> taInfoList = sanFranciscoState.getTaList().stream()
+                .filter(ta -> ta.getFirstName() != null && ta.getLastName() != null)
+                .map(ta -> ta.getFirstName() + " " + ta.getLastName() +
+                        " is a TA in " + sanFranciscoState.getUniversityName())
+                .collect(Collectors.toList());
+
+// Log the collected information
+        taInfoList.forEach(logger::info);
 
 
 
@@ -191,39 +208,71 @@ public class Generator {
 
         ScholarShip outstandingStudent = new ScholarShip("outstanding academics", 20000);
 
+        List<Student> outstandingStudents = sacramentoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 91)
+                .peek(student -> {
+                    student.setScholarship(outstandingStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + outstandingStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        outstandingStudents.forEach(logger::info);
 
 
-        // For loop for all students in Sacramento State that will receive scholarships
-        for (Student student : sacramentoState.getStudentList()) {
-            if (student.getExamScore() >= 91) {
-                student.setScholarship(outstandingStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + outstandingStudent.getScholarShipNameName() + " scholarship.");
-            } else if (student.getExamScore() >= 80 && student.getExamScore() < 91) {
-                student.setScholarship(greatStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + greatStudent.getScholarShipNameName() + " scholarship.");
-            } else if (student.getExamScore() >= 70 && student.getExamScore() < 80) {
-                student.setScholarship(goodStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + goodStudent.getScholarShipNameName() + " scholarship.");
-            } else {
-                logger.info(student.getFirstName() + " " + student.getLastName() + " did not receive a scholarship.");
-            }
-        }
-        // For Loop for all students in San Francisco State
-        for (Student student : sanFranciscoState.getStudentList()) {
-            if (student.getExamScore() >= 91) {
-                student.setScholarship(outstandingStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + outstandingStudent.getScholarShipNameName() + " scholarship.");
-            } else if (student.getExamScore() >= 80 && student.getExamScore() < 91) {
-                student.setScholarship(greatStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + greatStudent.getScholarShipNameName() + " scholarship.");
-            } else if (student.getExamScore() >= 70 && student.getExamScore() < 80) {
-                student.setScholarship(goodStudent);
-                logger.info(student.getFirstName() + " " + student.getLastName() + " received the " + goodStudent.getScholarShipNameName() + " scholarship.");
-            } else {
-                logger.info(student.getFirstName() + " " + student.getLastName() + " did not receive a scholarship.");
-            }
-        }
+        List<Student> greatStudents = sacramentoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 80 && student.getExamScore() < 91)
+                .peek(student -> {
+                    student.setScholarship(greatStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + greatStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        greatStudents.forEach(logger::info);
+
+        List<Student> goodStudents = sacramentoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 70 && student.getExamScore() < 80)
+                .peek(student -> {
+                    student.setScholarship(goodStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + goodStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        goodStudents.forEach(logger::info);
+
+
+
+        List<Student> sanFranOutstandingStudent = sanFranciscoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 91)
+                .peek(student -> {
+                    student.setScholarship(outstandingStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + outstandingStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        sanFranOutstandingStudent.forEach(logger::info);
+
+        List<Student> sanFranGreatStudent = sanFranciscoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 80 && student.getExamScore() < 91)
+                .peek(student -> {
+                    student.setScholarship(greatStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + greatStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        sanFranGreatStudent.forEach(logger::info);
+
+        List<Student> sanFranGoodStudent = sanFranciscoState.getStudentList().stream()
+                .filter(student -> student.getExamScore() >= 70 && student.getExamScore() < 80)
+                .peek(student -> {
+                    student.setScholarship(goodStudent);
+                    logger.info(student.getFirstName() + " " + student.getLastName() +
+                            " received the " + goodStudent.getScholarShipNameName() + " scholarship.");
+                })
+                .collect(Collectors.toList());
+        sanFranGoodStudent.forEach(logger::info);
     }
+
+
 
 
     public static void studentOptions(Student student, Scanner scanner) {
@@ -319,5 +368,4 @@ public class Generator {
         // Close the scanner
 //        scanner.close();
     }
-
 }

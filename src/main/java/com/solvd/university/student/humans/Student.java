@@ -6,10 +6,13 @@ import com.solvd.university.student.interfaces.*;
 import com.solvd.university.student.interfaces.IPrint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Student extends Person implements IStudent, IRelax, IPrepare, ITutor, IPrint {
     private static final Logger logger = LogManager.getLogger(Student.class);
+    public static Arrays students;
     private final int studentID;
     private final double examScore;
     private ScholarShip scholarship;
