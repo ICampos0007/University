@@ -1,4 +1,4 @@
-package com.solvd.university;
+package com.solvd.university.student.article;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +47,7 @@ public class Article {
             e.printStackTrace();
         }
     }
-//    public static void main(String[] args) {
-//        analyzeArticle();
-//    }
+    public static void main(String[] args) {
+        analyzeArticle();
+    }
 }

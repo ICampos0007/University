@@ -33,14 +33,7 @@ public class University extends Library {
 
     private static final Set<String> universityNamesSet = new HashSet<>();
 
-    // New enum for school week days
-    public enum SchoolWeekDay {
-        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
-    }
-
     private SchoolWeekDay currentSchoolWeekDay;  // Current day of the school week
-
-
 
 
     public University(String libraryName, String universityName, double tuition, Gym gym) {
@@ -147,12 +140,19 @@ public class University extends Library {
         return universityNamesSet;
     }
 
+    // Method to get the current day of the week
+    private SchoolWeekDay getCurrentDayOfWeek() {
+        // Get the current day of the week using the SchoolWeekDay enum
+        return SchoolWeekDay.valueOf(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)));
+    }
+
     public SchoolWeekDay getCurrentSchoolWeekDay() {
         return currentSchoolWeekDay;
     }
 
-    public void setCurrentSchoolWeekDay(SchoolWeekDay day) {
-        this.currentSchoolWeekDay = day;
+    public void setCurrentSchoolWeekDay() {
+        // Automatically update to the next day in the school week
+        this.currentSchoolWeekDay = currentSchoolWeekDay.getNextDay();
     }
 
 
